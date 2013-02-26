@@ -9,6 +9,8 @@ import org.scalatest._
 class ChunkParsersSpec extends ChunkParser with Spec with ShouldMatchers {
 
   describe("ChunkParser") {
+    
+
     it("should handle simple bullet items") {
       val src = "* item 1\n* item 2\n"
       parse( chunk, src ).get should equal ( BulletLineChunk("item 1\n") )
@@ -26,6 +28,14 @@ class ChunkParsersSpec extends ChunkParser with Spec with ShouldMatchers {
       parse( chunk, src ).get should equal { HeaderChunk(1, "Header 1") }
     }
     
+    it("should accept as valid these types of horizontal rules"){
+      val src = "***\n"
+      parse( chunk, src ).get should equal ( HorizontalRuleChunk )
+      val src1 = "---\n"
+      parse( chunk, src1 ).get should equal ( HorizontalRuleChunk )
+    }
+    
+
     it("should be ok with empty code blocks") {
       val src = "    "
       parse( chunk, src ).get should equal { IndentedChunk("") }
